@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 
 const COLORS = {
-  right: '#921111', left: '#f36113', top: '#ffffff', 
-  bottom: '#fdd835', front: '#1b5e20', back: '#0d47a1', internal: '#212121'
+  right: '#B90000', left: '#FF5900', top: '#ffffff', 
+  bottom: '#FFD500', front: '#009B48', back: '#0045AD', internal: '#212121'
 };
 
 const getInitialColors = (x, y, z) => {
