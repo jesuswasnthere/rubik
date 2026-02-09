@@ -55,3 +55,112 @@
 .controls .moves {
   font-weight: 600;
 }
+
+.cube-shell {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background: #0a0a0c;
+  overflow: hidden;
+}
+
+.cube-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.cube-hud {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 100;
+  background: rgba(20, 20, 25, 0.8);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #444;
+  backdrop-filter: blur(5px);
+  width: 280px;
+  box-sizing: border-box;
+}
+
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.hud-header h2 {
+  margin: 0;
+  color: #fff;
+}
+
+.hud-moves {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.hud-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.hud-actions button {
+  flex: 1;
+  padding: 10px;
+  background: #eee;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cube-hud hr {
+  border: 0.5px solid #333;
+  margin: 15px 0;
+}
+
+.hud-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
+}
+
+.hud-grid button {
+  background: #444;
+  color: #fff;
+  border: none;
+  padding: 8px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.hud-grid button:nth-child(n+7) {
+  background: #222;
+  color: #aaa;
+}
+
+@media (max-width: 768px) {
+  .cube-shell {
+    height: auto;
+    min-height: 100vh;
+  }
+
+  .cube-hud {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0 auto 12px auto;
+  }
+
+  .hud-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hud-actions {
+    flex-direction: column;
+  }
+}
