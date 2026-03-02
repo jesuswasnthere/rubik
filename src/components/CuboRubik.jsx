@@ -70,14 +70,14 @@ const CuboRubik = () => {
           <button onClick={() => handleMove("U", "y", 1, -1)}>U</button>
           <button onClick={() => handleMove("D", "y", -1, 1)}>D</button>
           <button onClick={() => handleMove("L", "x", -1, -1)}>L</button>
-          <button onClick={() => handleMove("R", "x", 1, 1)}>R</button>
+          <button onClick={() => handleMove("R", "x", 1, -1)}>R</button>
           <button onClick={() => handleMove("F", "z", 1, -1)}>F</button>
           <button onClick={() => handleMove("B", "z", -1, 1)}>B</button>
 
           <button onClick={() => handleMove("U'", 'y', 1, 1)}>U'</button>
           <button onClick={() => handleMove("D'", 'y', -1, -1)}>D'</button>
           <button onClick={() => handleMove("L'", 'x', -1, 1)}>L'</button>
-          <button onClick={() => handleMove("R'", 'x', 1, -1)}>R'</button>
+          <button onClick={() => handleMove("R'", 'x', 1, 1)}>R'</button>
           <button onClick={() => handleMove("F'", 'z', 1, 1)}>F'</button>
           <button onClick={() => handleMove("B'", 'z', -1, -1)}>B'</button>
 
