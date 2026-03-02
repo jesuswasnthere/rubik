@@ -5,7 +5,15 @@ import { useCubeLogic } from '../hooks/useCubeLogic';
 import Cubito from './Cubito';
 
 const CuboRubik = () => {
-  const { cubies, rotateFace, shuffle, reset, isSolved, moves } = useCubeLogic();
+  const { cubies, rotateFace, shuffle, reset, isSolved, moves, elapsedMs } = useCubeLogic();
+
+  const formatTime = (ms) => {
+    const totalSeconds = Math.floor(ms / 1000);
+    const minutes = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+    const seconds = (totalSeconds % 60).toString().padStart(2, '0');
+    const tenths = Math.floor((ms % 1000) / 100);
+    return `${minutes}:${seconds}.${tenths}`;
+  };
 
   // Función para ejecutar movimientos por nombre
   const handleMove = (name, axis, layer, dir) => {
@@ -18,6 +26,7 @@ const CuboRubik = () => {
         <div className="hud-header">
           <h2>Simulador 3x3</h2>
           <span className="hud-moves">Movimientos: {moves}</span>
+          <span className="hud-time">Tiempo: {formatTime(elapsedMs)}</span>
         </div>
 
         <div className="hud-actions">

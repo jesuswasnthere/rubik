@@ -87,6 +87,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
   margin-bottom: 10px;
 }
 
@@ -98,6 +99,11 @@
 .hud-moves {
   color: #00ff00;
   font-weight: bold;
+}
+
+.hud-time {
+  color: #7cd1ff;
+  font-weight: 600;
 }
 
 .hud-actions {

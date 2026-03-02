@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 const COLORS = {
   right: '#FF5900',
@@ -43,10 +43,58 @@ export const useCubeLogic = () => {
 
   const [cubies, setCubies] = useState(generateState);
   const [moves, setMoves] = useState(0);
+  const [elapsedMs, setElapsedMs] = useState(0);
+  const [running, setRunning] = useState(false);
+  const startRef = useRef(null);
+  const baseMsRef = useRef(0);
+
+  const resetTimer = useCallback(() => {
+    baseMsRef.current = 0;
+    startRef.current = null;
+    setElapsedMs(0);
+    setRunning(false);
+  }, []);
+
+  const startTimer = useCallback(() => {
+    if (running) return;
+    startRef.current = Date.now();
+    setRunning(true);
+  }, [running]);
+
+  const stopTimer = useCallback(() => {
+    if (!running) return;
+    baseMsRef.current += Date.now() - (startRef.current || Date.now());
+    startRef.current = null;
+    setElapsedMs(baseMsRef.current);
+    setRunning(false);
+  }, [running]);
+
+  useEffect(() => {
+    if (!running) return undefined;
+    const id = setInterval(() => {
+      const now = Date.now();
+      const delta = startRef.current ? now - startRef.current : 0;
+      setElapsedMs(baseMsRef.current + delta);
+    }, 100);
+    return () => clearInterval(id);
+  }, [running]);
+
+  const isSolvedSnapshot = useCallback((state) => {
+    const faces = [
+      { axis: 0, layer: 1, colorIdx: 0 }, { axis: 0, layer: -1, colorIdx: 1 },
+      { axis: 1, layer: 1, colorIdx: 2 }, { axis: 1, layer: -1, colorIdx: 3 },
+      { axis: 2, layer: 1, colorIdx: 4 }, { axis: 2, layer: -1, colorIdx: 5 }
+    ];
+    return faces.every(({ axis, layer, colorIdx }) => {
+      const faceCubies = state.filter(c => Math.round(c.position[axis]) === layer);
+      const firstColor = faceCubies[0].colors[colorIdx];
+      return faceCubies.every(c => c.colors[colorIdx] === firstColor);
+    });
+  }, []);
 
   const rotateFace = useCallback((axis, layer, direction = 1) => {
-    setCubies((prev) =>
-      prev.map((cubie) => {
+    setCubies((prev) => {
+      const next = prev.map((cubie) => {
         const [cx, cy, cz] = cubie.position.map((v) => Math.round(v));
         const isCenterPiece = [cx, cy, cz].filter((v) => v === 0).length === 2 && Math.abs(cx + cy + cz) === 1;
         if (isCenterPiece) {
@@ -89,17 +137,25 @@ export const useCubeLogic = () => {
             : [nC[2], nC[3], nC[1], nC[0], nC[4], nC[5]];
         }
 
-        return { 
-          ...cubie, 
-          position: [Math.round(nP[0]), Math.round(nP[1]), Math.round(nP[2])], 
-          colors: nC 
+        return {
+          ...cubie,
+          position: [Math.round(nP[0]), Math.round(nP[1]), Math.round(nP[2])],
+          colors: nC,
         };
-      })
-    );
-    setMoves(m => m + 1);
-  }, []);
+      });
+
+      if (isSolvedSnapshot(next)) {
+        stopTimer();
+      }
+
+      return next;
+    });
+    setMoves((m) => m + 1);
+  }, [isSolvedSnapshot, stopTimer]);
 
   const shuffle = () => {
+    resetTimer();
+    startTimer();
     const axes = ['x', 'y', 'z'], layers = [-1, 0, 1];
     for (let i = 0; i < 20; i++) {
       rotateFace(axes[Math.floor(Math.random() * 3)], layers[Math.floor(Math.random() * 3)], 1);
@@ -107,18 +163,22 @@ export const useCubeLogic = () => {
     setMoves(0);
   };
 
-  const isSolved = () => {
-    const faces = [
-      { axis: 0, layer: 1, colorIdx: 0 }, { axis: 0, layer: -1, colorIdx: 1 },
-      { axis: 1, layer: 1, colorIdx: 2 }, { axis: 1, layer: -1, colorIdx: 3 },
-      { axis: 2, layer: 1, colorIdx: 4 }, { axis: 2, layer: -1, colorIdx: 5 }
-    ];
-    return faces.every(({ axis, layer, colorIdx }) => {
-      const faceCubies = cubies.filter(c => Math.round(c.position[axis]) === layer);
-      const firstColor = faceCubies[0].colors[colorIdx];
-      return faceCubies.every(c => c.colors[colorIdx] === firstColor);
-    });
-  };
+  const isSolved = () => isSolvedSnapshot(cubies);
 
-  return { cubies, rotateFace, shuffle, reset: () => { setCubies(generateState()); setMoves(0); }, isSolved, moves };
+  return {
+    cubies,
+    rotateFace,
+    shuffle,
+    reset: () => {
+      setCubies(generateState());
+      setMoves(0);
+      resetTimer();
+    },
+    isSolved,
+    moves,
+    elapsedMs,
+    running,
+    startTimer,
+    stopTimer,
+  };
 };
