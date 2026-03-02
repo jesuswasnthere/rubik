@@ -1,8 +1,13 @@
 import { useState, useCallback } from 'react';
 
 const COLORS = {
-  right: '#B90000', left: '#FF5900', top: '#ffffff', 
-  bottom: '#FFD500', front: '#009B48', back: '#0045AD', internal: '#212121'
+  right: '#FF5900',
+  left: '#B90000',
+  top: '#FFD500',      // amarillo arriba
+  bottom: '#ffffff',   // blanco abajo (ajuste solicitado)
+  front: '#009B48',
+  back: '#0045AD',
+  internal: '#212121'
 };
 
 const getInitialColors = (x, y, z) => {
@@ -42,6 +47,17 @@ export const useCubeLogic = () => {
   const rotateFace = useCallback((axis, layer, direction = 1) => {
     setCubies((prev) =>
       prev.map((cubie) => {
+        const [cx, cy, cz] = cubie.position.map((v) => Math.round(v));
+        const isCenterPiece = [cx, cy, cz].filter((v) => v === 0).length === 2 && Math.abs(cx + cy + cz) === 1;
+        if (isCenterPiece) {
+          // Lock centers in place and orientation (white abajo, amarillo arriba, etc.)
+          return {
+            ...cubie,
+            position: [cx, cy, cz],
+            colors: getInitialColors(cx, cy, cz),
+          };
+        }
+
         const axisMap = { x: 0, y: 1, z: 2 };
         const idx = axisMap[axis];
 
