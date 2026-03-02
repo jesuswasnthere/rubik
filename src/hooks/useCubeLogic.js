@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 
 const COLORS = {
-  right: '#FF5900',
-  left: '#B90000',
+  right: '#ff6614',
+  left: '#940404',
   top: '#FFD500',      // amarillo arriba
   bottom: '#ffffff',   // blanco abajo (ajuste solicitado)
   front: '#009B48',

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, PerspectiveCamera, Environment } from '@react-three/drei';
 import { useCubeLogic } from '../hooks/useCubeLogic';
@@ -19,6 +19,36 @@ const CuboRubik = () => {
   const handleMove = (name, axis, layer, dir) => {
     rotateFace(axis, layer, dir);
   };
+
+  // Atajos de teclado para giros y sus primas
+  useEffect(() => {
+    const keyMap = {
+      q: () => handleMove('U', 'y', 1, -1),
+      w: () => handleMove('D', 'y', -1, 1),
+      e: () => handleMove('L', 'x', -1, -1),
+      r: () => handleMove('R', 'x', 1, 1),
+      t: () => handleMove('F', 'z', 1, -1),
+      y: () => handleMove('B', 'z', -1, 1),
+      a: () => handleMove("U'", 'y', 1, 1),
+      s: () => handleMove("D'", 'y', -1, -1),
+      d: () => handleMove("L'", 'x', -1, 1),
+      f: () => handleMove("R'", 'x', 1, -1),
+      g: () => handleMove("F'", 'z', 1, 1),
+      h: () => handleMove("B'", 'z', -1, -1),
+    };
+
+    const handleKey = (e) => {
+      const key = e.key.toLowerCase();
+      const action = keyMap[key];
+      if (action) {
+        e.preventDefault();
+        action();
+      }
+    };
+
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [rotateFace]);
 
   return (
     <div className="cube-shell">
