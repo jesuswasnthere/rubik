@@ -20,19 +20,21 @@ const CuboRubik = () => {
     rotateFace(axis, layer, dir);
   };
 
+  // Convención: direction = 1 gira +90° alrededor del eje positivo (antihorario visto desde ese lado).
+  // Caras del lado positivo (U, R, F) giran en horario con -1; las del lado negativo (D, L, B) con +1.
   // Atajos de teclado para giros y sus primas
   useEffect(() => {
     const keyMap = {
       q: () => handleMove('U', 'y', 1, -1),
       w: () => handleMove('D', 'y', -1, 1),
-      e: () => handleMove('L', 'x', -1, -1),
-      r: () => handleMove('R', 'x', 1, 1),
+      e: () => handleMove('L', 'x', -1, 1),
+      r: () => handleMove('R', 'x', 1, -1),
       t: () => handleMove('F', 'z', 1, -1),
       y: () => handleMove('B', 'z', -1, 1),
       a: () => handleMove("U'", 'y', 1, 1),
       s: () => handleMove("D'", 'y', -1, -1),
-      d: () => handleMove("L'", 'x', -1, 1),
-      f: () => handleMove("R'", 'x', 1, -1),
+      d: () => handleMove("L'", 'x', -1, -1),
+      f: () => handleMove("R'", 'x', 1, 1),
       g: () => handleMove("F'", 'z', 1, 1),
       h: () => handleMove("B'", 'z', -1, -1),
     };
@@ -69,14 +71,14 @@ const CuboRubik = () => {
         <div className="hud-grid">
           <button onClick={() => handleMove("U", "y", 1, -1)}>U</button>
           <button onClick={() => handleMove("D", "y", -1, 1)}>D</button>
-          <button onClick={() => handleMove("L", "x", -1, -1)}>L</button>
+          <button onClick={() => handleMove("L", "x", -1, 1)}>L</button>
           <button onClick={() => handleMove("R", "x", 1, -1)}>R</button>
           <button onClick={() => handleMove("F", "z", 1, -1)}>F</button>
           <button onClick={() => handleMove("B", "z", -1, 1)}>B</button>
 
           <button onClick={() => handleMove("U'", 'y', 1, 1)}>U'</button>
           <button onClick={() => handleMove("D'", 'y', -1, -1)}>D'</button>
-          <button onClick={() => handleMove("L'", 'x', -1, 1)}>L'</button>
+          <button onClick={() => handleMove("L'", 'x', -1, -1)}>L'</button>
           <button onClick={() => handleMove("R'", 'x', 1, 1)}>R'</button>
           <button onClick={() => handleMove("F'", 'z', 1, 1)}>F'</button>
           <button onClick={() => handleMove("B'", 'z', -1, -1)}>B'</button>
