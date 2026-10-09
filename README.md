@@ -54,7 +54,6 @@ npm run preview    # previsualizar el build
 
 - [ ] Quitar restos de Create React App (`App.test.js`, `setupTests.js`, `reportWebVitals.js`, `logo.svg`, dependencias de `@testing-library`, `GENERATE_SOURCEMAP` en `.env`).
 - [ ] Completar o quitar las páginas `/about` y `/me` (hoy están vacías).
-- [ ] Revisar la dirección del giro R: el botón y la tecla `R` usan sentidos distintos.
 - [ ] Actualizar `public/manifest.json` y el título de `index.html`.
 - [ ] Animar los giros de cara (hoy son instantáneos).
 
