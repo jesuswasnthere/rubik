@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# Cubo Rubik 3D
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Cubo de Rubik 3×3 interactivo en el navegador, renderizado en 3D con React Three Fiber. Se puede girar la cámara, aplicar movimientos con botones o teclado, mezclar el cubo y medir el tiempo de resolución.
 
-## Available Scripts
+## Funcionalidades
 
-In the project directory, you can run:
+- **Cubo 3D** con 27 piezas, iluminación y entorno (`Environment` de drei).
+- **Cámara orbital:** arrastrar para rotar la vista (`OrbitControls`).
+- **Movimientos** U, D, L, R, F, B y sus inversos (prima), con botones en pantalla y teclado.
+- **Mezclar:** 20 giros aleatorios; el cronómetro arranca al mezclar.
+- **Reiniciar** al estado resuelto.
+- **Contador de movimientos** y **cronómetro**.
+- **Detección de cubo resuelto:** el cronómetro se detiene al resolverlo.
+- Colores estándar: amarillo arriba, blanco abajo, verde al frente, azul atrás, naranja a la derecha y rojo a la izquierda.
 
-### `npm start`
+## Controles de teclado
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+| Tecla | Movimiento | Tecla | Movimiento |
+|---|---|---|---|
+| `Q` | U | `A` | U' |
+| `W` | D | `S` | D' |
+| `E` | L | `D` | L' |
+| `R` | R | `F` | R' |
+| `T` | F | `G` | F' |
+| `Y` | B | `H` | B' |
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Stack
 
-### `npm test`
+React · Vite · Three.js · @react-three/fiber · @react-three/drei · React Router.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Estructura
 
-### `npm run build`
+```
+src/
+├── main.jsx                 # Entrada (Vite + BrowserRouter)
+├── App.jsx                  # Navegación y rutas: /, /about, /me
+├── components/
+│   ├── CuboRubik.jsx        # Escena 3D, HUD, botones y atajos de teclado
+│   └── Cubito.jsx           # Una pieza del cubo
+├── hooks/useCubeLogic.js    # Estado del cubo, giros, mezcla, cronómetro, detección de resuelto
+└── utils/cubeMath.js        # Rotación de posiciones y caras
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Instalación
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+npm install
+npm run dev        # servidor de desarrollo (Vite)
+npm run build      # build de producción en ./dist
+npm run preview    # previsualizar el build
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Pendiente técnico
 
-### `npm run eject`
+- [ ] Quitar restos de Create React App (`App.test.js`, `setupTests.js`, `reportWebVitals.js`, `logo.svg`, dependencias de `@testing-library`, `GENERATE_SOURCEMAP` en `.env`).
+- [ ] Completar o quitar las páginas `/about` y `/me` (hoy están vacías).
+- [ ] Revisar la dirección del giro R: el botón y la tecla `R` usan sentidos distintos.
+- [ ] Actualizar `public/manifest.json` y el título de `index.html`.
+- [ ] Animar los giros de cara (hoy son instantáneos).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Hoja de ruta (monetización)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Solver y tutorial paso a paso (método para principiantes y CFOP).
+- Historial de tiempos con estadísticas (mejor tiempo, promedio de 5 y de 12).
+- Ranking online y retos diarios con la misma mezcla para todos.
+- PWA instalable y versión móvil con gestos táctiles.
+- Modelo freemium: funciones avanzadas o temas de cubo de pago, o anuncios.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Desarrollado por **Jesús Mariño** · [Stackvro](https://github.com/jesuswasnthere/stackvro)
